@@ -1,6 +1,7 @@
 package com.Veterinaria.Veterinaria.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "mascotas")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Mascota {
 
     @Id

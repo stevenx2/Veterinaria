@@ -1,18 +1,16 @@
 package com.Veterinaria.Veterinaria.Controller;
 
 
+import com.Veterinaria.Veterinaria.Model.Propietario;
 import com.Veterinaria.Veterinaria.Services.util.ServicioPropietario;
 import com.Veterinaria.Veterinaria.exception.BadRequest;
 import com.Veterinaria.Veterinaria.exception.NotFound;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.List;
+import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/propietarios")
@@ -39,6 +37,14 @@ public class RestControllerPropietario {
         } catch (NumberFormatException e) {
             throw new BadRequest("El id tiene que ser numérico");
         }
+    }
+
+
+    @PostMapping
+    public ResponseEntity<?> save(@RequestBody Propietario propietario) {
+        Propietario guardado = service.save(propietario);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(guardado.getId()).toUri();
+        return ResponseEntity.created(uri).body(guardado);
     }
 
 

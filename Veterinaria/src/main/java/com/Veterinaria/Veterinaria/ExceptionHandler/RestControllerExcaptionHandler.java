@@ -26,6 +26,7 @@ public class RestControllerExcaptionHandler {
     }
 
 
+
     //Método que devuelve el header de una solicitud http cuando se ocasiona un error
     private Map<String, Object> getHeaderHttp(String msg, HttpStatus status) {
         Map<String, Object> map = new HashMap<>();

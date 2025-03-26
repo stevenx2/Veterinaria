@@ -1,6 +1,7 @@
 package com.Veterinaria.Veterinaria.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "propietario")
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Propietario {
 
     @Id
@@ -30,12 +32,24 @@ public class Propietario {
     private int edad;
 
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "propietario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "propietario")
     private List<Mascota> mascotas = new ArrayList<>();
 
-    public Propietario(String nombre, String apellido, int edad) {
+    public Propietario(String nombre, String apellido, int edad, List<Mascota> mascotas) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
+        this.mascotas = mascotas;
+    }
+
+
+    public void addMascota(Mascota mascota) {
+        mascotas.add(mascota);
+        mascota.setPropietario(this);
+    }
+
+    public void removeMascota(Mascota mascota) {
+        mascotas.remove(mascota);
+        mascota.setPropietario(null);
     }
 }
