@@ -75,4 +75,40 @@ public class RestControllerMascota {
     }
 
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<?> update(@PathVariable String id, @RequestBody Mascota edit) {
+        try {
+            Integer ID = Integer.valueOf(id);
+
+            if (service.existById(ID)) {
+                Mascota mascota = service.findById(ID);
+                mascota.setTipo(edit.getTipo());
+                mascota.setNombre(edit.getNombre());
+                mascota.setFechaIngreso(edit.getFechaIngreso());
+                service.save(mascota);
+                return ResponseEntity.ok(mascota);
+            } else throw new NotFound("no existe una mascota con el id " + ID);
+
+        } catch (NumberFormatException e) {
+            throw new BadRequest("el id tiene que ser numérico");
+        }
+    }
+
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        try {
+            Integer ID = Integer.valueOf(id);
+
+            if (service.existById(ID)) {
+                service.delete(service.findById(ID));
+                return ResponseEntity.noContent().build();
+            } else throw new NotFound("no existe una mascota con el id " + ID);
+        } catch (NumberFormatException e) {
+            throw new BadRequest("el id tiene que ser numérico");
+        }
+
+    }
+
+
 }

@@ -3,7 +3,6 @@ package com.Veterinaria.Veterinaria.Controller;
 
 import com.Veterinaria.Veterinaria.Model.Propietario;
 import com.Veterinaria.Veterinaria.Services.IPropietario;
-import com.Veterinaria.Veterinaria.Services.util.ServicioPropietario;
 import com.Veterinaria.Veterinaria.exception.BadRequest;
 import com.Veterinaria.Veterinaria.exception.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,13 +61,30 @@ public class RestControllerPropietario {
                 propietarioObtenido.setEdad(propietario.getEdad());
                 propietarioObtenido.setApellido(propietario.getApellido());
                 service.save(propietarioObtenido);
-                return ResponseEntity.noContent().build();
+                return ResponseEntity.ok(propietarioObtenido);
 
             } else throw new NotFound("no existe un propietario con el id " + ID);
 
         } catch (NumberFormatException e) {
             throw new BadRequest("el id tiene que ser númerico");
         }
+    }
+
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        try {
+            Integer ID = Integer.valueOf(id);
+
+            if (service.existById(ID)) {
+                service.delete(service.findByid(ID));
+                return ResponseEntity.noContent().build();
+            } else throw new NotFound("no existe un propietario con el id " + ID);
+
+        } catch (NumberFormatException e) {
+            throw new BadRequest("el id tiene que ser numérico");
+        }
+
     }
 
 
