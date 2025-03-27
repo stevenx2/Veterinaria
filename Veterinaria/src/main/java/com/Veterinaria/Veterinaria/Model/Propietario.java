@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Objeto plano donde de almacenan los registros de la entidad propietario de la base de datos
+ */
 @Data
 @NoArgsConstructor
 @Table(name = "propietario")
@@ -43,11 +46,19 @@ public class Propietario {
     }
 
 
+    /**
+     * este metodo agrega una nueva mascota al propietario y se le asigna el propietario actual a la mascota
+     * @param mascota la Mascota que se va a agregar al Propietario
+     */
     public void addMascota(Mascota mascota) {
         mascotas.add(mascota);
         mascota.setPropietario(this);
     }
 
+    /**
+     *
+     * @param mascota el objeto Mascota que se va a eliminar del propietario
+     */
     public void removeMascota(Mascota mascota) {
         mascotas.remove(mascota);
         mascota.setPropietario(null);

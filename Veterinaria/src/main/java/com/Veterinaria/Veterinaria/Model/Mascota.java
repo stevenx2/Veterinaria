@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * bjeto plano donde de almacenan los registros de la entidad mascota de la base de datos
+ */
 @Data
 @NoArgsConstructor
 @Entity

@@ -16,28 +16,53 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
+/**
+ * Controlador para manejar los registros de la entidad mascota
+ */
 @RestController
 @RequestMapping(value = "/mascotas")
 public class RestControllerMascota {
 
+
+    /**
+     * bean de servicioMascota
+     */
     @Autowired
     @Qualifier(value = "servicioMascota")
-    IMascota service;
+    private IMascota service;
 
+    /**
+     * bean de servicioPropietario
+     */
     @Autowired
     @Qualifier(value = "servicioPropietario")
-    IPropietario servicePropietario;
+    private IPropietario servicePropietario;
 
+    /**
+     * variable de tipo string que toma el valor del archivo .properties
+     * especificamente la propiedad request.url. el valor de esta variable representa la url
+     * de una solicitud de tipo get y muestra donde se creó un registro. esta variable se creó por problemas
+     * al crear la uri del contenido creado. la variable de entorno REQUEST_STATIC_URL especifica la url
+     */
     @Value(value = "${request.url}")
     private String urlEstatica;
 
 
+    /**
+     * metodo para obtener todos los registros de la entidad mascota
+     * @return cuerpo de la solicitud http con codigo de estado 200 y la lista de mascotas de la base de datos
+     */
     @GetMapping
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
 
 
+    /**
+     *
+     * @param id el id de la mascota que se quiere encontrar. este id lo pasa el cliente
+     * @return el cuerpo de la solicitud http con codigo de estado 200 y la mascota encontrada
+     */
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable String id) {
         try {
@@ -52,6 +77,12 @@ public class RestControllerMascota {
     }
 
 
+    /**
+     * metodo para guardar una mascota. aqui se hace uso de la variable urlEstatica.
+     * @param idPropietario el id del propietario al cual se le quiere agregar una nueva mascota
+     * @param mascota la mascota que se le va a agregar
+     * @return respuesta con codigo de estado 201, la url para encontrar el recurso y la mascota guardada
+     */
     @PostMapping(value = "/{idPropietario}")
     public ResponseEntity<?> save(@PathVariable String idPropietario, @RequestBody Mascota mascota) {
         try {
@@ -75,6 +106,12 @@ public class RestControllerMascota {
     }
 
 
+    /**
+     * metodo para actualizar los datos de una mascota
+     * @param id id de la mascota que se quiere modificar
+     * @param edit el objeto de mascota que va a remplazar a este
+     * @return respuesta http con codigo de estado 200 y los nuevos datos de la mascota
+     */
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> update(@PathVariable String id, @RequestBody Mascota edit) {
         try {
@@ -95,6 +132,11 @@ public class RestControllerMascota {
     }
 
 
+    /**
+     * metodo para eliminar una mascota
+     * @param id id de la mascota que se quiere eliminar
+     * @return respuesta con codigo de estado 204 NO_CONTENT
+     */
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable String id) {
         try {
