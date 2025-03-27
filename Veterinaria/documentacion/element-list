@@ -1,0 +1,8 @@
+com.Veterinaria.Veterinaria
+com.Veterinaria.Veterinaria.Controller
+com.Veterinaria.Veterinaria.Dao
+com.Veterinaria.Veterinaria.exception
+com.Veterinaria.Veterinaria.ExceptionHandler
+com.Veterinaria.Veterinaria.Model
+com.Veterinaria.Veterinaria.Services
+com.Veterinaria.Veterinaria.Services.util

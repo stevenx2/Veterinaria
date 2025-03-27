@@ -1,0 +1,40 @@
+services:
+  app:
+    build: Veterinaria
+    environment:
+      DB_URL: jdbc:mysql://db:3306/veterinaria?useSSL=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+      DB_USERNAME: root
+      DB_PASSWORD: admin
+      REQUEST_STATIC_URL: http://db:8080/Veterinaria/0.0.1/mascotas
+
+    ports:
+      - 8080:8080
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: veterinaria
+
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+      - vol_mysql:/var/lib/mysql
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 20s
+      timeout: 10s
+      retries: 3
+
+    ports:
+      - 3307:3306
+
+
+
+volumes:
+  vol_mysql:
