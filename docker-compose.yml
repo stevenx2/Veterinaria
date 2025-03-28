@@ -1,6 +1,7 @@
 services:
   app:
     build: Veterinaria
+    platform: linux/amd64
     environment:
       DB_URL: jdbc:mysql://db:3306/veterinaria?useSSL=true&serverTimezone=UTC&createDatabaseIfNotExist=true
       DB_USERNAME: root
